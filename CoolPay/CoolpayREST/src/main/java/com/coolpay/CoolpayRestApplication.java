@@ -6,6 +6,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
+import com.coolpay.entities.Recipient;
 import com.coolpay.services.LoginServiceImpl;
 
 @SpringBootApplication
@@ -15,6 +16,8 @@ public class CoolpayRestApplication {
 		SpringApplication.run(CoolpayRestApplication.class, args);
 		LoginServiceImpl lsi = new LoginServiceImpl();
 		lsi.getToken();
+		Recipient r = new Recipient("Wilson");
+		lsi.createRecipient(r);
 	}
 	
 	@Bean
