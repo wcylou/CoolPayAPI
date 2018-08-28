@@ -1,0 +1,2 @@
+rootProject.name = 'CoolpayREST'
+includeFlat 'CoolpayJPA'
