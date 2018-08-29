@@ -10,6 +10,8 @@
     
     <class>com.coolpay.entities.Token</class>
     <class>com.coolpay.entities.User</class>
+    <class>com.coolpay.entities.Payment</class>
+    <class>com.coolpay.entities.Recipient</class>
 
     <properties>
       <property name="javax.persistence.jdbc.url"

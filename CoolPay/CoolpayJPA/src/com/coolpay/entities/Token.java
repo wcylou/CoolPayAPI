@@ -11,14 +11,14 @@ public class Token {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private int id;
-	private String token;
+	private static String token;
 
-	public String getToken() {
+	public static String getToken() {
 		return token;
 	}
 
-	public void setToken(String token) {
-		this.token = token;
+	public static void setToken(String token) {
+		Token.token = token;
 	}
 
 	public int getId() {

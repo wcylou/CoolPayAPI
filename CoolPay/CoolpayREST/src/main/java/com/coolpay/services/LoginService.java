@@ -6,6 +6,4 @@ public interface LoginService {
 	
 	String getToken();
 
-	Recipient createRecipient(Recipient recipient);
-
 }

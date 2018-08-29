@@ -1,17 +1,14 @@
 package com.coolpay.services;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -33,7 +30,6 @@ public class LoginServiceImpl implements LoginService {
 	
 	private RestTemplate restTemplate = new RestTemplate();
 	private HttpHeaders httpHeaders = new HttpHeaders();
-	Token t = new Token();
 	
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer propertiesResolver() {
@@ -67,35 +63,11 @@ public class LoginServiceImpl implements LoginService {
 				jsonObj = new JSONObject(response);
 				System.out.println(jsonObj.toString());
 				System.out.println(jsonObj.getString("token"));
-				t.setToken(jsonObj.getString("token"));
+				Token.setToken(jsonObj.getString("token"));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		return jsonObj.toString();
 	}
 	
-	@Override
-	public Recipient createRecipient(Recipient recipient) {
-		ObjectMapper mapper = new ObjectMapper();
-		String recipientJSON = "";
-		try {
-			recipientJSON = "{\"recipient\":" + mapper.writeValueAsString(recipient) + "}";
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-				System.out.println(recipientJSON);
-		
-		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
-		headers.add("Authorization", "Bearer " + t.getToken());
-		headers.add("Content-Type", "application/json");
-
-		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-
-		HttpEntity<String> request = new HttpEntity<String>(recipientJSON, headers);
-		String response = restTemplate.postForObject("https://coolpay.herokuapp.com/api/recipients", request, String.class);
-		System.out.println(response);
-		return null;
-	}
-
 }
