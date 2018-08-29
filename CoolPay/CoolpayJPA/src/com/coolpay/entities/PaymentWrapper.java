@@ -11,7 +11,7 @@ public class PaymentWrapper {
 		payment = new Payment();
 	}
 	
-	public PaymentWrapper(double amount, String currency, @JsonProperty("recipient_id") String recipientId) {
+	public PaymentWrapper(double amount, String currency, String recipientId) {
 		this();
 		payment.setAmount(amount);
 		payment.setCurrency(currency);

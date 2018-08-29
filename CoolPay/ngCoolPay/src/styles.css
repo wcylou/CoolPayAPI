@@ -5,6 +5,6 @@ body {
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-thead, tbody  {
+thead, tbody, h1  {
   text-align:center;
 }
