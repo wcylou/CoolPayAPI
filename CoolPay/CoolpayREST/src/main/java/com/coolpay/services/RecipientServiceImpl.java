@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.coolpay.entities.Payment;
 import com.coolpay.entities.Recipient;
 import com.coolpay.entities.RecipientWrapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -52,7 +53,7 @@ public class RecipientServiceImpl implements RecipientService {
 	}
 
 	@Override
-	public String findSingleRecipient(String recipientName) {
+	public Recipient findSingleRecipient(String recipientName) {
 		Map<String, String> jsonParams = new HashMap<>();
 		jsonParams.put("name", recipientName);
 
@@ -61,17 +62,19 @@ public class RecipientServiceImpl implements RecipientService {
 				String.class, jsonParams);
 
 		String id = "";
+		Recipient recipient = new Recipient();
 		try {
 			JSONObject jObject = new JSONObject(response.getBody());
 			JSONArray ja = jObject.getJSONArray("recipients");
-			JSONObject first = ja.getJSONObject(0);
-			id = first.getString("id");
-		} catch (JSONException e) {
+			recipient.setId(ja.getJSONObject(0).getString("id"));
+			recipient.setName(ja.getJSONObject(0).getString("name"));
+			}
+		catch (JSONException e) {
 			e.printStackTrace();
 		}
 
 		System.out.println("SINGLE RECIPIENT" + response);
-		return id;
+		return recipient;
 	}
 
 	@Override

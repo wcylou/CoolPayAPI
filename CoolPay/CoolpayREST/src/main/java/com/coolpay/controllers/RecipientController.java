@@ -8,24 +8,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.coolpay.entities.Recipient;
 import com.coolpay.entities.RecipientWrapper;
 import com.coolpay.services.RecipientService;
 
-@CrossOrigin({"*", "http://localhost:4200"})
+@CrossOrigin({ "*", "http://localhost:4200" })
 @RequestMapping("api/")
 @RestController
 public class RecipientController {
-	
+
 	@Autowired
 	RecipientService rServe;
-	
-	@RequestMapping(path="recipients", method= RequestMethod.POST)
+
+	@RequestMapping(path = "recipients", method = RequestMethod.POST)
 	public RecipientWrapper createRecipient(@RequestBody RecipientWrapper recipient) {
 		return rServe.createRecipient(recipient);
 	}
-	
-	@RequestMapping(path="recipients/{name}", method= RequestMethod.GET)
-	public String findSingleRecipient(@PathVariable String name) {
+
+	@RequestMapping(path = "recipients/{name}", method = RequestMethod.GET)
+	public Recipient findSingleRecipient(@PathVariable String name) {
 		return rServe.findSingleRecipient(name);
 	}
 

@@ -13,18 +13,17 @@ public class Payment {
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
-	@JsonProperty("recipient_id")
 	private String id;
 	private double amount;
 	private String currency;
-	@JsonIgnore
 	private String name;
-	@JsonIgnore
 	private String status;
-	
+	@JsonProperty("recipient_id")
+	private String recipientId;
+
 	public Payment() {
 	}
-	
+
 	public Payment(double amount, String currency, String name) {
 		super();
 		this.amount = amount;
@@ -32,13 +31,22 @@ public class Payment {
 		this.name = name;
 	}
 
-	public Payment(String id, double amount, String currency, String name, String status) {
+	public Payment(String id, double amount, String currency, String name, String status, String recipientId) {
 		super();
 		this.id = id;
 		this.amount = amount;
 		this.currency = currency;
 		this.name = name;
 		this.status = status;
+		this.recipientId = recipientId;
+	}
+
+	public String getRecipientId() {
+		return recipientId;
+	}
+
+	public void setRecipientId(String recipientId) {
+		this.recipientId = recipientId;
 	}
 
 	public String getId() {
@@ -94,6 +102,8 @@ public class Payment {
 		builder.append(name);
 		builder.append(", status=");
 		builder.append(status);
+		builder.append(", recipientId=");
+		builder.append(recipientId);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -108,6 +118,7 @@ public class Payment {
 		result = prime * result + ((currency == null) ? 0 : currency.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((recipientId == null) ? 0 : recipientId.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
@@ -138,6 +149,11 @@ public class Payment {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
+		if (recipientId == null) {
+			if (other.recipientId != null)
+				return false;
+		} else if (!recipientId.equals(other.recipientId))
+			return false;
 		if (status == null) {
 			if (other.status != null)
 				return false;
@@ -145,6 +161,5 @@ public class Payment {
 			return false;
 		return true;
 	}
-
 
 }

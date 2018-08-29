@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { User } from './user';
+import { User } from './models/user';
 import { environment } from '../environments/environment';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -12,7 +12,7 @@ export class LoginService {
 
   private url = environment.baseUrl + 'api/login';
 
-  login(form) {
+  login(user) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

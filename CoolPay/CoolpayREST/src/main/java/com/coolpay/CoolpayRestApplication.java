@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.coolpay.entities.Payment;
 import com.coolpay.entities.PaymentWrapper;
+import com.coolpay.entities.Recipient;
 import com.coolpay.entities.RecipientWrapper;
 import com.coolpay.entities.User;
 import com.coolpay.services.LoginService;
@@ -55,14 +56,14 @@ public class CoolpayRestApplication {
 		SpringApplication.run(CoolpayRestApplication.class, args);
 		User u = new User("WilsonL", "4C4105EC33D8F6CA");
 		lsi.getToken(u);
-//		RecipientWrapper r = new RecipientWrapper("Bob");
-//		rsi.createRecipient(r);
-//		rsi.findSingleRecipient("Wilson");
-//		rsi.searchAllRecipients();
-//		Payment p = new Payment(10.5, "GBP", "Bob");
-//		String recipientId = rsi.findSingleRecipient(p.getName());
-//		PaymentWrapper pw = new PaymentWrapper(10.5, "GBP", recipientId);
-////		psi.sendMoney(pw);
+		RecipientWrapper r = new RecipientWrapper("Bob");
+		rsi.createRecipient(r);
+		rsi.findSingleRecipient("Wilson");
+		rsi.searchAllRecipients();
+		Payment p = new Payment(10.5, "GBP", "Bob");
+		Recipient recipient = rsi.findSingleRecipient(p.getName());
+		PaymentWrapper pw = new PaymentWrapper(10.5, "GBP", recipient.getId());
+		psi.sendMoney(pw);
 		psi.listAllPayments();
 
 	}

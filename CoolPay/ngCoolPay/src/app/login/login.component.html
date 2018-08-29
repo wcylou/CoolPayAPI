@@ -1,7 +1,11 @@
-<br>
+<link rel = "stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+
+<div class = "container">
+    <h1>Login</h1>
 <form #loginUser = "ngForm">
     Username<input type="text" name="username" placeholder="Username" class="form-control"  ngModel/><br>
-    Password<input type="text" name="password" placeholder="Password" class="form-control"  ngModel/>
+    API Key<input type="text" name="apikey" placeholder="API Key" class="form-control"  ngModel/>
 <br>
     <button (click)="login(loginUser)" class="btn btn-success">Login</button>
  </form>
+</div>

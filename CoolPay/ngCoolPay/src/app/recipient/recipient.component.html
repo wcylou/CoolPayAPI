@@ -1,0 +1,40 @@
+<link rel = "stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+
+
+
+  <div class = "container">
+  <h1>New Recipient</h1>
+  <form #newRecipient = "ngForm">
+      <div class="form-group">
+        Name:
+        <input type="text" class="form-control" name="name" ngModel/>
+      </div>
+  </form>
+  <button (click)="addRecipient(newRecipient)" class="btn btn-success">Add Recipient</button>
+
+  <h1>Show Recipient</h1>
+  <form #showRecipient = "ngForm">
+      <div class="form-group">
+        Name:
+        <input type="text" class="form-control" name="recipientName" ngModel/>
+      </div>
+  </form>
+  <button (click)="index(showRecipient)" class="btn btn-success">Find Recipient</button>
+
+  <div *ngIf="showSingleRecipient">
+  <table class = "table table-striped table-dark">
+    <thead class = "thead-dark">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{showSingleRecipient.id}}</td>
+        <td>{{showSingleRecipient.name}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>

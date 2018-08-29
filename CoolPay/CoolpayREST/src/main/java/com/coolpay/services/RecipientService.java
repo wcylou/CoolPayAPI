@@ -13,6 +13,6 @@ public interface RecipientService {
 
 	ArrayList<Recipient> searchAllRecipients();
 
-	String findSingleRecipient(String recipientName);
+	Recipient findSingleRecipient(String recipientName);
 
 }

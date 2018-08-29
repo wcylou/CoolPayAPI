@@ -8,19 +8,28 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { RecipientComponent } from './recipient/recipient.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { PaymentComponent } from './payment/payment.component';
+
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    RecipientComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule,
+    NgbModule.forRoot(),
+    MatFormFieldModule
   ],
   providers: [
-    LoginService,
-    HttpClientModule
+    LoginService
   ],
   bootstrap: [AppComponent]
 })

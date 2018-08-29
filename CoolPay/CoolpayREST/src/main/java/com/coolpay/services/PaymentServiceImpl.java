@@ -55,14 +55,13 @@ public class PaymentServiceImpl implements PaymentService {
 		try {
 			JSONObject jObject = new JSONObject(response.getBody());
 			JSONArray ja = jObject.getJSONArray("payments");
-			System.out.println(ja);
 			for (int i = 0; i < ja.length(); i++) {
 				Payment p = new Payment();
 				p.setAmount(ja.getJSONObject(i).getDouble("amount"));
 				p.setCurrency(ja.getJSONObject(i).getString("currency"));
-				p.setId(ja.getJSONObject(i).getString("id"));
+				p.setRecipientId(ja.getJSONObject(i).getString("recipient_id"));
 				p.setStatus(ja.getJSONObject(i).getString("status"));
-				p.setId(ja.getJSONObject(i).getString("recipient_id"));
+				p.setId(ja.getJSONObject(i).getString("id"));
 				allPayments.add(p);
 			}
 		} catch (JSONException e) {

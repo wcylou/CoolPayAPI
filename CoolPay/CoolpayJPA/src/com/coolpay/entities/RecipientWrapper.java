@@ -1,6 +1,5 @@
 package com.coolpay.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RecipientWrapper {
@@ -24,6 +23,5 @@ public class RecipientWrapper {
 	public void setName(String recipientName) {
 		recipient.setName(recipientName);
 	}
-	
 	
 }

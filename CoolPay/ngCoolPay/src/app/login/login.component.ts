@@ -1,6 +1,7 @@
 import { LoginService } from './../login.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-login',
@@ -9,10 +10,14 @@ import { NgForm } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
+  newUser: User = new User();
+
   login(form: NgForm) {
-    this.loginService.login(form.value.username, form.value.password).subscribe(
+    this.newUser.apikey = form.value.apikey;
+    this.newUser.username = form.value.username;
+    this.loginService.login(this.newUser).subscribe(
       data => {
-        this.router.navigateByUrl('todo');
+        console.error('Logged in');
       },
       err => console.error('Register error' + err)
     );
