@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
-	
+
 	private static LoginService lsi;
 
 	@Autowired
@@ -34,23 +34,19 @@ public class PaymentServiceImpl implements PaymentService {
 		String recipientJSON = "";
 		try {
 			recipientJSON = mapper.writeValueAsString(payment);
-			System.out.println(recipientJSON);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		String response = restTemplate.postForObject("https://coolpay.herokuapp.com/api/payments", lsi.setHeadersPOST(recipientJSON),
-				String.class);
-		System.out.println("PAYMENT RESPONSE" + response);
+		String response = restTemplate.postForObject("https://coolpay.herokuapp.com/api/payments",
+				lsi.setHeadersPOST(recipientJSON), String.class);
 		return payment;
 	}
-	
+
 	@Override
 	public ArrayList<Payment> listAllPayments() {
-		ResponseEntity<String> response = restTemplate.exchange(
-		    "https://coolpay.herokuapp.com/api/payments", HttpMethod.GET, lsi.setHeadersGET(), String.class);
-		System.out.println("PAYMENTS" + response);
-		
-		String id = "";
+		ResponseEntity<String> response = restTemplate.exchange("https://coolpay.herokuapp.com/api/payments",
+				HttpMethod.GET, lsi.setHeadersGET(), String.class);
+
 		ArrayList<Payment> allPayments = new ArrayList<>();
 		try {
 			JSONObject jObject = new JSONObject(response.getBody());

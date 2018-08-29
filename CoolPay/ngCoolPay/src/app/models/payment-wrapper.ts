@@ -4,7 +4,6 @@ export class PaymentWrapper {
 
   payment: Payment;
 
-  constructor(payment?: Payment) {
-    this.payment = payment;
+  constructor(paymnet?: Payment) {
   }
 }

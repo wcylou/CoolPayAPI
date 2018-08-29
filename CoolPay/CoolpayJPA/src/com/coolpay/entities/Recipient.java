@@ -5,7 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 @Entity
@@ -16,7 +15,7 @@ public class Recipient {
 	@Id
 	private String id;
 	private String name;
-	
+
 	public Recipient() {
 	}
 
@@ -82,6 +81,5 @@ public class Recipient {
 			return false;
 		return true;
 	}
-
 
 }

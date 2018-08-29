@@ -20,10 +20,10 @@ public class User {
 	@Column(name = "api_key")
 	@JsonProperty("apikey")
 	private String apiKey;
-	
+
 	public User() {
 	}
-	
+
 	public User(String username, String apiKey) {
 		super();
 		this.username = username;

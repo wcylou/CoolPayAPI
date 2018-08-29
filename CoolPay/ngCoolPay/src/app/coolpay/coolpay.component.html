@@ -35,6 +35,22 @@
     </form>
     <button (click)="addRecipient(newRecipient)" class="btn btn-success">Add Recipient</button>
 
+    <div *ngIf="addedRecipient">
+      <br>
+        <table class = "table table-striped table-dark">
+          <thead class = "thead-dark">
+            <tr>
+              <th>Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{newRecipientWrapper.name}}</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+
     <h1>Show Recipient</h1>
     <form #showRecipient = "ngForm">
         <div class="form-group">
@@ -88,7 +104,13 @@
       </div>
     </form>
     <button (click)="addPayment(newPayment)" class="btn btn-success">Send Money</button>
+    <br><br>
+    <button (click)="showAllPayments()" class="btn btn-success">Show All Payments</button>
+  </div>
+</div>
 
+  <div *ngIf="showAllPaymentsForm">
+    <div class = "container">
     <h1>All Payments</h1>
         <table class = "table table-striped">
           <thead class = "thead-dark">
@@ -111,4 +133,4 @@
           </tbody>
         </table>
       </div>
-</div>
+    </div>

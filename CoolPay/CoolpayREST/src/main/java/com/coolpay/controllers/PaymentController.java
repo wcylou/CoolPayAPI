@@ -14,20 +14,20 @@ import com.coolpay.entities.Payment;
 import com.coolpay.entities.PaymentWrapper;
 import com.coolpay.services.PaymentService;
 
-@CrossOrigin({"*", "http://localhost:4200"})
+@CrossOrigin({ "*", "http://localhost:4200" })
 @RequestMapping("api/")
 @RestController
 public class PaymentController {
-	
+
 	@Autowired
 	PaymentService pServe;
-	
-	@RequestMapping(path="payments", method= RequestMethod.POST)
+
+	@RequestMapping(path = "payments", method = RequestMethod.POST)
 	public PaymentWrapper sendMoney(@RequestBody PaymentWrapper payment) {
 		return pServe.sendMoney(payment);
 	}
-	
-	@RequestMapping(path="payments", method= RequestMethod.GET)
+
+	@RequestMapping(path = "payments", method = RequestMethod.GET)
 	public ArrayList<Payment> listAllPayments() {
 		return pServe.listAllPayments();
 	}

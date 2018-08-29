@@ -10,20 +10,20 @@ import org.springframework.web.bind.annotation.RestController;
 import com.coolpay.entities.User;
 import com.coolpay.services.LoginService;
 
-@CrossOrigin({"*", "http://localhost:4200"})
+@CrossOrigin({ "*", "http://localhost:4200" })
 @RequestMapping("api/")
 @RestController
 public class LoginController {
-	
+
 	@Autowired
 	LoginService lServe;
-	
-	@RequestMapping(path="ping", method= RequestMethod.GET)
+
+	@RequestMapping(path = "ping", method = RequestMethod.GET)
 	public String ping() {
 		return "pong";
 	}
-	
-	@RequestMapping(path="login", method= RequestMethod.POST)
+
+	@RequestMapping(path = "login", method = RequestMethod.POST)
 	public String login(@RequestBody User user) {
 		return lServe.getToken(user);
 	}
