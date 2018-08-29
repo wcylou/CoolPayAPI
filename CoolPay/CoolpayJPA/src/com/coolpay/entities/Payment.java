@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -12,26 +13,31 @@ public class Payment {
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
+	@JsonProperty("recipient_id")
 	private String id;
 	private double amount;
 	private String currency;
-	private String recipientId;
+	@JsonIgnore
+	private String name;
+	@JsonIgnore
 	private String status;
 	
+	public Payment() {
+	}
 	
-	public Payment(double amount, String currency, @JsonProperty("recipient_id") String recipientId) {
+	public Payment(double amount, String currency, String name) {
 		super();
 		this.amount = amount;
 		this.currency = currency;
-		this.recipientId = recipientId;
+		this.name = name;
 	}
 
-	public Payment(String id, double amount, String currency, String recipientId, String status) {
+	public Payment(String id, double amount, String currency, String name, String status) {
 		super();
 		this.id = id;
 		this.amount = amount;
 		this.currency = currency;
-		this.recipientId = recipientId;
+		this.name = name;
 		this.status = status;
 	}
 
@@ -59,12 +65,12 @@ public class Payment {
 		this.currency = currency;
 	}
 
-	public String getRecipientId() {
-		return recipientId;
+	public String getName() {
+		return name;
 	}
 
-	public void setRecipientId(String recipientId) {
-		this.recipientId = recipientId;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getStatus() {
@@ -84,8 +90,8 @@ public class Payment {
 		builder.append(amount);
 		builder.append(", currency=");
 		builder.append(currency);
-		builder.append(", recipientId=");
-		builder.append(recipientId);
+		builder.append(", name=");
+		builder.append(name);
 		builder.append(", status=");
 		builder.append(status);
 		builder.append("]");
@@ -101,7 +107,7 @@ public class Payment {
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((currency == null) ? 0 : currency.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((recipientId == null) ? 0 : recipientId.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
@@ -127,10 +133,10 @@ public class Payment {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (recipientId == null) {
-			if (other.recipientId != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!recipientId.equals(other.recipientId))
+		} else if (!name.equals(other.name))
 			return false;
 		if (status == null) {
 			if (other.status != null)
@@ -139,5 +145,6 @@ public class Payment {
 			return false;
 		return true;
 	}
+
 
 }

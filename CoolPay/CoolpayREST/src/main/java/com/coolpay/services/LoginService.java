@@ -1,9 +1,9 @@
 package com.coolpay.services;
 
-import com.coolpay.entities.Recipient;
+import org.springframework.http.HttpEntity;
+
 
 public interface LoginService {
 	
 	String getToken();
-
 }

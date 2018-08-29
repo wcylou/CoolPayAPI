@@ -2,7 +2,6 @@ package com.coolpay.services;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -15,10 +14,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.coolpay.entities.Recipient;
 import com.coolpay.entities.Token;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 @Configuration
@@ -69,5 +65,4 @@ public class LoginServiceImpl implements LoginService {
 			}
 		return jsonObj.toString();
 	}
-	
 }

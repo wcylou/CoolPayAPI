@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.persistence.sessions.serializers.JSONSerializer;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -23,21 +28,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class RecipientServiceImpl implements RecipientService {
 	
+	@Autowired
+	LoginServiceImpl lsi;
+	
 	ObjectMapper mapper = new ObjectMapper();
 	private RestTemplate restTemplate = new RestTemplate();
-	MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
 
 	
 	@Override
 	public RecipientWrapper createRecipient(RecipientWrapper recipient) {
 		String recipientJSON = "";
 		try {
-//			recipientJSON = "{\"recipient\":" + mapper.writeValueAsString(recipient) + "}";
 			recipientJSON = mapper.writeValueAsString(recipient);
 			System.out.println(recipientJSON);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
 		
 		headers.add("Authorization", "Bearer " + Token.getToken());
 		headers.add("Content-Type", "application/json");
@@ -51,45 +58,47 @@ public class RecipientServiceImpl implements RecipientService {
 	}
 	
 	@Override
-	public ArrayList<Recipient> searchRecipients(String recipientName) {
-		ArrayList<Recipient> listRecipients = new ArrayList<>();
+	public String findSingleRecipient(String recipientName) {
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Authorization", "Bearer " + Token.getToken());
 		headers.set("Content-Type", "application/json");
-
 		HttpEntity<String> request = new HttpEntity<String>(headers);
-
+		
 		Map<String, String> jsonParams = new HashMap<>();
 		jsonParams.put("name", recipientName);
 		
 		ResponseEntity<String> response = restTemplate.exchange(
 		    "https://coolpay.herokuapp.com/api/recipients?name={name}", HttpMethod.GET, request, String.class, jsonParams);
 		
-		System.out.println(response);
+		String id = "";
+		try {
+			JSONObject jObject  = new JSONObject(response.getBody());
+			JSONArray ja = jObject.getJSONArray("recipients");
+			JSONObject first = ja.getJSONObject(0);
+			id = first.getString("id"); 
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println("SINGLE RECIPIENT" + response);
+		return id;
+	}
+	
+	@Override
+	public ArrayList<Recipient> searchAllRecipients() {
+		ArrayList<Recipient> listRecipients = new ArrayList<>();
 		
-//		Map<String, String> newMap = new TreeMap<>();
-//		
-//		try
-//		{
-//		    JSONArray jsonArray = new JSONArray(response);
-//
-//		    for (int i = 0; i < jsonArray.length(); i++) {
-//		        JSONObject jsonObject = jsonArray.getJSONObject(i);
-//
-//		        String userName = jsonObject.getString("name");
-//		        String userId = jsonObject.getString("id");
-//		        newMap.put(userName, userId);
-//		        System.out.println(newMap);
-//
-//		    }
-//		} 
-//		catch (JSONException e) 
-//		{
-//		    e.printStackTrace();
-//		}
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Authorization", "Bearer " + Token.getToken());
+		headers.set("Content-Type", "application/json");
+		HttpEntity<String> request = new HttpEntity<String>(headers);
+		
+		ResponseEntity<String> response = restTemplate.exchange(
+		    "https://coolpay.herokuapp.com/api/recipients", HttpMethod.GET, request, String.class);
+		
+		System.out.println("ALLRECIPIENTS" + response);
 		return listRecipients;
-		
 	}
 
 }

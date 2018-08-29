@@ -1,9 +1,9 @@
 package com.coolpay.services;
 
-import com.coolpay.entities.Payment;
+import com.coolpay.entities.PaymentWrapper;
 
 public interface PaymentService {
 
-	Payment sendMoney(Payment payment);
+	PaymentWrapper sendMoney(PaymentWrapper payment);
 
 }
