@@ -2,6 +2,7 @@ package com.coolpay.services;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -15,17 +16,15 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.coolpay.entities.Token;
+import com.coolpay.entities.User;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-@Configuration
-@PropertySource("application.properties")
 public class LoginServiceImpl implements LoginService {
 	
-//	@Value("4C4105EC33D8F6CA")
-	private String keyName = "4C4105EC33D8F6CA";
-	
-	private RestTemplate restTemplate = new RestTemplate();
-	private HttpHeaders httpHeaders = new HttpHeaders();
+	ObjectMapper mapper = new ObjectMapper();
+	RestTemplate restTemplate = new RestTemplate();
 	
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer propertiesResolver() {
@@ -33,36 +32,50 @@ public class LoginServiceImpl implements LoginService {
 	}
 	
 	@Override
-	public String getToken() {
-    	
-    		String coolpayURL = "https://coolpay.herokuapp.com/api/login";
+	public String getToken(User user) {
 
-    		httpHeaders = new HttpHeaders();
-    		httpHeaders.set("Content-Type", "application/json");
+		String recipientJSON = "";
+		try {
+			recipientJSON = mapper.writeValueAsString(user);
+			System.out.println(recipientJSON);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Content-Type", "application/json");
+		HttpEntity<String> request = new HttpEntity<String>(recipientJSON, headers);
+		
+		String response = restTemplate.postForObject("https://coolpay.herokuapp.com/api/login", 
+				request, String.class);
 
-    		JSONObject json = new JSONObject();
-				try {
-					json.put("username","WilsonL");
-					json.put("apikey", keyName);
-					System.out.println(json);
-				} catch (JSONException e1) {
-					e1.printStackTrace();
-				}
-
-    		HttpEntity <String> httpEntity = new HttpEntity <String> (json.toString(), httpHeaders);
-    		System.out.println(httpEntity);
-
-    		String response = restTemplate.postForObject(coolpayURL, httpEntity, String.class);
-
-			JSONObject jsonObj = null;
+		JSONObject jsonObj = null;
 			try {
 				jsonObj = new JSONObject(response);
-				System.out.println(jsonObj.toString());
-				System.out.println(jsonObj.getString("token"));
 				Token.setToken(jsonObj.getString("token"));
+				System.out.println(jsonObj.getString("token"));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		return jsonObj.toString();
+	}
+	
+	@Override
+	public HttpEntity<String> setHeadersGET() {
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Authorization", "Bearer " + Token.getToken());
+		headers.set("Content-Type", "application/json");
+		HttpEntity<String> request = new HttpEntity<String>(headers);
+		return request;
+	}
+	
+	@Override
+	public HttpEntity<String> setHeadersPOST(String jsonString) {
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+		headers.add("Authorization", "Bearer " + Token.getToken());
+		headers.add("Content-Type", "application/json");
+		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+		HttpEntity<String> request = new HttpEntity<String>(jsonString, headers);
+		return request;
 	}
 }

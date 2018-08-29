@@ -8,18 +8,15 @@ public class RecipientWrapper {
 	@JsonProperty("recipient")
 	private Recipient recipient;
 
-	
 	public RecipientWrapper() {
 		recipient = new Recipient();
 	}
-
 	
 	public RecipientWrapper(String recipientName) {
 		this();
 		recipient.setName(recipientName);
 	}
 
-	@JsonIgnore
 	public String getName() {
 		return recipient.getName();
 	}

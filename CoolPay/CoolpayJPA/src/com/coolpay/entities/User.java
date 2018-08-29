@@ -6,17 +6,24 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 public class User {
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
+	@JsonIgnore
 	private int id;
 	private String username;
 	@Column(name = "api_key")
+	@JsonProperty("apikey")
 	private String apiKey;
 	
-
+	public User() {
+	}
+	
 	public User(String username, String apiKey) {
 		super();
 		this.username = username;

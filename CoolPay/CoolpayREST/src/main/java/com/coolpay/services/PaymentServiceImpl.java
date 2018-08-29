@@ -1,25 +1,33 @@
 package com.coolpay.services;
 
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.coolpay.entities.Payment;
 import com.coolpay.entities.PaymentWrapper;
-import com.coolpay.entities.Token;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
+	
+	private static LoginService lsi;
 
+	@Autowired
+	public void setLoginServiceService(LoginService lsi) {
+		PaymentServiceImpl.lsi = lsi;
+	}
 
 	ObjectMapper mapper = new ObjectMapper();
-	private RestTemplate restTemplate = new RestTemplate();
-	MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+	RestTemplate restTemplate = new RestTemplate();
 
 	@Override
 	public PaymentWrapper sendMoney(PaymentWrapper payment) {
@@ -30,18 +38,37 @@ public class PaymentServiceImpl implements PaymentService {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
-
-		headers.add("Authorization", "Bearer " + Token.getToken());
-		headers.add("Content-Type", "application/json");
-
-		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-
-		HttpEntity<String> request = new HttpEntity<String>(recipientJSON, headers);
-		String response = restTemplate.postForObject("https://coolpay.herokuapp.com/api/payments", request,
+		String response = restTemplate.postForObject("https://coolpay.herokuapp.com/api/payments", lsi.setHeadersPOST(recipientJSON),
 				String.class);
 		System.out.println("PAYMENT RESPONSE" + response);
 		return payment;
+	}
+	
+	@Override
+	public ArrayList<Payment> listAllPayments() {
+		ResponseEntity<String> response = restTemplate.exchange(
+		    "https://coolpay.herokuapp.com/api/payments", HttpMethod.GET, lsi.setHeadersGET(), String.class);
+		System.out.println("PAYMENTS" + response);
+		
+		String id = "";
+		ArrayList<Payment> allPayments = new ArrayList<>();
+		try {
+			JSONObject jObject = new JSONObject(response.getBody());
+			JSONArray ja = jObject.getJSONArray("payments");
+			System.out.println(ja);
+			for (int i = 0; i < ja.length(); i++) {
+				Payment p = new Payment();
+				p.setAmount(ja.getJSONObject(i).getDouble("amount"));
+				p.setCurrency(ja.getJSONObject(i).getString("currency"));
+				p.setId(ja.getJSONObject(i).getString("id"));
+				p.setStatus(ja.getJSONObject(i).getString("status"));
+				p.setId(ja.getJSONObject(i).getString("recipient_id"));
+				allPayments.add(p);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return allPayments;
 	}
 
 }
