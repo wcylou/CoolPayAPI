@@ -25,11 +25,11 @@ The app can do the following:
 - Bootstrap
 
 ### Stretch Goals
-- Implement a database to store recipients and payments
-- Fix send money as currently works in back-end but not in front-end
-- Create more tests
+- Implement a database to store recipients and payments.
+- Fix send money as currently works in back-end but not in front-end.
+- Create more tests.
 - Store hardcoded call links in application.properties. I had to time-box debugging @Value not working.
 
 ### License
 This program is licensed under the MIT license.
-Copyright (c) 2018 Wilson Lou
+Copyright (c) 2018 Wilson Lou.
