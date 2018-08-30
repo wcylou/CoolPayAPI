@@ -44,6 +44,7 @@ export class CoolpayComponent implements OnInit {
   }
 
   showAllPayments() {
+    this.reload();
     this.showAllPaymentsForm = true;
     this.recipientForms = false;
     this.paymentForms = false;
@@ -87,7 +88,7 @@ export class CoolpayComponent implements OnInit {
               this.addedRecipient = true;
               form.reset();
             },
-            err => console.error('Payment error' + err)
+            err => console.error('Recipient error' + err)
           );
   }
 
