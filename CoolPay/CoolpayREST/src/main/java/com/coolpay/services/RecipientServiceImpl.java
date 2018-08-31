@@ -70,12 +70,4 @@ public class RecipientServiceImpl implements RecipientService {
 		return recipient;
 	}
 
-	@Override
-	public ArrayList<Recipient> searchAllRecipients() {
-		ArrayList<Recipient> listRecipients = new ArrayList<>();
-		restTemplate.exchange("https://coolpay.herokuapp.com/api/recipients",
-				HttpMethod.GET, lsi.setHeadersGET(), String.class);
-		return listRecipients;
-	}
-
 }

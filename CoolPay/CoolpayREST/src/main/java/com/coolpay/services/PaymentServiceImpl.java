@@ -37,7 +37,7 @@ public class PaymentServiceImpl implements PaymentService {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		String response = restTemplate.postForObject("https://coolpay.herokuapp.com/api/payments",
+		restTemplate.postForObject("https://coolpay.herokuapp.com/api/payments",
 				lsi.setHeadersPOST(recipientJSON), String.class);
 		return payment;
 	}
